@@ -69,7 +69,7 @@ function App() {
       }
 
       await axios.post(
-          "http://localhost:3000/submit-report",
+          "https://site-report-backend.onrender.com/submit-report",
           data
       );
 
