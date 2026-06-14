@@ -59,12 +59,14 @@ async function getSheetsService() {
     const auth = new google.auth.GoogleAuth({
         credentials: {
             client_email: process.env.GOOGLE_CLIENT_EMAIL,
-            private_key: process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, "\n")
+            private_key: process.env.GOOGLE_PRIVATE_KEY
         },
         scopes: [
             "https://www.googleapis.com/auth/spreadsheets"
         ]
     });
+    console.log("EMAIL:", process.env.GOOGLE_CLIENT_EMAIL);
+    console.log("KEY LENGTH:", process.env.GOOGLE_PRIVATE_KEY?.length);
 
     const client = await auth.getClient();
 
@@ -113,7 +115,8 @@ app.post(
 
             if (req.file) {
                 photoUrl =
-                    `http://localhost:3000/uploads/${req.file.filename}`;
+                    photoUrl =
+                        `${req.protocol}://${req.get("host")}/uploads/${req.file.filename}`;
             }
 
             await sheets.spreadsheets.values.append({
